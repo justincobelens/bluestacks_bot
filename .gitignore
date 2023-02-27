@@ -1,2 +1,4 @@
 .idea
 *.db
+bot/const.py
+*.pyc

@@ -1,10 +1,8 @@
-import pygetwindow
 import json
 
-from subprocess import Popen
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
-import const
+from bot.enums import const
 
 
 @dataclass

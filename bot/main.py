@@ -1,11 +1,8 @@
-import sys
-import time
+from bot.modules.window import Window
+from bot.modules.bluestacks import Bluestacks
+from bot.modules.phone import Phone
 
-from window import Window
-from bluestacks import Bluestacks
-from phone import Phone
-
-import const
+from bot.enums import const
 
 
 class Main:

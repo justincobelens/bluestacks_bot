@@ -24,10 +24,13 @@ def add_task():
 
     conn.commit()
 
-cursor.execute('SELECT * FROM tasks')
-rows = cursor.fetchall()
+create_table()
+add_task()
 
-for row in rows:
-    print(row)
+# cursor.execute('SELECT * FROM tasks')
+# rows = cursor.fetchall()
+#
+# for row in rows:
+#     print(row)
 
 conn.close()

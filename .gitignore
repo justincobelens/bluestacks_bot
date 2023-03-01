@@ -2,3 +2,4 @@
 *.db
 bot/paths.py
 *.pyc
+.gitattributes

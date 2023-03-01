@@ -90,7 +90,7 @@ class Phone:
 
     # TODO
     # there must be a better way for creating timeouts
-    def wait_for_homescreen(self, serial):
+    def wait_for_homescreen(self, serial, cur_depth=0, max_depth=5):
         """
         adb -s [SERIAL] shell getprop sys.boot_completed | tr -d '\r'
         """
@@ -102,8 +102,14 @@ class Phone:
         try:
             stdout = result.stdout.split()[0]
         except IndexError as e:
-            print(result)
-            return False
+
+            if cur_depth < max_depth:
+                time.sleep(5)
+                cur_depth += 1
+                return self.wait_for_homescreen(serial)
+            else:
+                print(result)
+                return False
 
         while result.stdout.split()[0] != '1':
             result = self.shell(serial, cmd.split(" "))
@@ -119,4 +125,9 @@ class Phone:
 
         return result
 
+    def get_ip(self, serial):
+        cmd = r"wget -q -O - ipinfo.io/ip"
+        result = self.shell(serial, [cmd])
+        # result = subprocess.run(["adb", '-s', serial, "shell", "wget", '-O', '-', 'ipinfo.io/ip'], capture_output=True, text=True)
 
+        return result.stdout

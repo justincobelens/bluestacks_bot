@@ -1,0 +1,3 @@
+
+class BotManager:
+    pass

@@ -1,4 +1,4 @@
 .idea
 *.db
-bot/enums/const.py
+bot/paths.py
 *.pyc

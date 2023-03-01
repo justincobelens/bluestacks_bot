@@ -1,8 +1,12 @@
-from bot.modules.window import Window
-from bot.modules.bluestacks import Bluestacks
-from bot.modules.phone import Phone
+import time
 
-from bot.enums import const
+from bot.window.window import Window
+from bot.window.bluestacks import Bluestacks
+from bot.adb.phone import Phone
+
+from bot import paths
+
+from bot.tasks.task import Task
 
 
 class Main:
@@ -26,7 +30,7 @@ class Main:
 
             instance_title = instance['Name']  # e.g. BlueStacks App Player 1
             instance_name = instance['InstanceName']  # e.g. Nougat64 or Pie64_2
-            instance_path = f"{const.instance_path(instance_name)}"
+            instance_path = f"{paths.instance_path(instance_name)}"
 
             # 1) CREATE BLUESTACKS WINDOW
             # TODO
@@ -61,6 +65,13 @@ class Main:
             phone.wait_for_homescreen(serial)
 
             # 3) PERFORM TASKS
+            time.sleep(5)
+            task = Task()
+            public_ip = task.public_ip
+            device_public_ip = phone.get_ip(serial)
+
+            print(f"pc pip: {public_ip}")
+            print(f"device pip: {device_public_ip}")
 
             # 4) DISCONNECT ADB
             phone.disconnect_all()
@@ -70,7 +81,6 @@ class Main:
 
             # wait for process to stop
             window.wait_for_process(state='stop')
-
 
         phone.stop_adb_server()
 

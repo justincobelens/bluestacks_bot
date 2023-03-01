@@ -2,7 +2,7 @@ import json
 
 from dataclasses import dataclass
 
-from bot.enums import const
+from bot import paths
 
 
 @dataclass
@@ -10,7 +10,7 @@ class Bluestacks:
 
     @staticmethod
     def get_instances_data():
-        path = const.MimMetaData_path
+        path = paths.MimMetaData_path
 
         with open(path) as json_file:
             data = json.load(json_file)
@@ -20,9 +20,10 @@ class Bluestacks:
 
             return instances
 
-    def get_adb_port(self, instance_name: str):
+    @staticmethod
+    def get_adb_port(instance_name: str):
 
-        bluestacks_config_path = const.bluestacks_config_path
+        bluestacks_config_path = paths.bluestacks_config_path
         with open(bluestacks_config_path, 'r') as f:
 
             for line in f:

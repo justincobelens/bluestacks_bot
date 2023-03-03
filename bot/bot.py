@@ -1,23 +1,41 @@
+import json
 from dataclasses import dataclass, field
+
+@dataclass
+class BotBase:
+    manager: any
+    instance_title: str
+    instance_name: str
+    _serial: str = "localhost:5555",
+    _tasks: json = None
+
+    @property
+    def serial(self):
+        return self._serial
+
+    @serial.setter
+    def serial(self, val):
+        self._serial = val
+
+    @property
+    def tasks(self):
+        return self._tasks
+
+    @tasks.setter
+    def tasks(self, val):
+        self._tasks = val
 
 
 @dataclass
-class Bot:
-    instance_title: str  # e.g. BlueStacks App Player 1
-    instance_name: str  # e.g. Nougat64 or Pie64_2
-    instance_path: str
-
-    serial: str = field(init=False)
-    adb_port: str = field(init=False)
-
+class Bot(BotBase):
     def __post_init__(self):
         pass
 
-    def start(self):
-        pass
+    def run(self):
+        self.manager.run()
 
-    def exit(self):
-        pass
+    def stop(self):
+        self.manager.stop()
 
     def kill(self):
         pass

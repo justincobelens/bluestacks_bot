@@ -12,7 +12,7 @@ class Bluestacks:
     def get_instances_data():
         path = paths.MimMetaData_path
 
-        with open(path) as json_file:
+        with open(path, 'r') as json_file:
             data = json.load(json_file)
             instances = data["Organization"]
 

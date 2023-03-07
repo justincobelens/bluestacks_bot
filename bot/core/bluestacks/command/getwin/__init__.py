@@ -1,10 +1,8 @@
 import ctypes
 
-import win32api
-import win32con
 import win32gui
 
-from bot.bluestacks.window_test import BaseWindow
+from bot.core.bluestacks.window_test import BaseWindow
 
 class RECT(ctypes.Structure):
     """A nice wrapper of the RECT structure.

@@ -1,7 +1,7 @@
 import subprocess
 
-from bot.adb.connection import Connection
-from bot.adb.command.host import Host
+from bot.core.adb.connection import Connection
+from bot.core.adb.command.host import Host
 
 
 class Client(Host):

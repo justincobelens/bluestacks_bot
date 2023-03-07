@@ -1,7 +1,7 @@
 import re
 import time
 
-from bot.adb.command import Command
+from bot.core.adb.command import Command
 
 
 class Shell(Command):

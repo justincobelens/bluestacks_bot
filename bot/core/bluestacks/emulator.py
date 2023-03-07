@@ -1,4 +1,4 @@
-from bot.bluestacks.plugins.utils import Utils
+from bot.core.bluestacks.plugins.utils import Utils
 
 
 class Emulator(Utils):

@@ -1,5 +1,5 @@
-from bot.adb.command.shell import Shell
-from bot.adb.plugins.utils import Utils
+from bot.core.adb.command.shell import Shell
+from bot.core.adb.plugins.utils import Utils
 
 class Device(Shell, Utils):
 

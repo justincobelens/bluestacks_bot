@@ -1,7 +1,7 @@
 import struct
 import socket
 
-from bot.adb.protocol import Protocol
+from bot.core.adb.protocol import Protocol
 
 
 class Connection:

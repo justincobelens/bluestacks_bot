@@ -2,8 +2,8 @@ import collections
 import time
 
 from bot.bsbot import Bot
-from bot.adb.client import Client
-from bot.bluestacks.bluestacks import Bluestacks
+from bot.core.adb import Client
+from bot.core.bluestacks.bluestacks import Bluestacks
 from bot.utils.logger import BotLogging
 
 logger = BotLogging.get_logger("bot." + __name__)

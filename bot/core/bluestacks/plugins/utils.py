@@ -1,5 +1,5 @@
 
-from bot.bluestacks.plugins import Plugin
+from bot.core.bluestacks.plugins import Plugin
 
 from bot.utils.logger import BotLogging
 

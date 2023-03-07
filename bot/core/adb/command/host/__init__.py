@@ -1,5 +1,5 @@
-from bot.adb.device import Device
-from bot.adb.command import Command
+from bot.core.adb.device import Device
+from bot.core.adb.command import Command
 
 
 class Host(Command):

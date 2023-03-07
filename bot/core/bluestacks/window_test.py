@@ -1,5 +1,8 @@
 from dataclasses import dataclass, field
 
+"""
+- add all properties
+"""
 
 @dataclass
 class BaseWindow:

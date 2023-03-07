@@ -33,7 +33,3 @@ class BotLogging:
     @classmethod
     def enable(cls, level=logging.DEBUG):
         logging.getLogger(cls.PACKAGE_NAME).setLevel(level)
-
-
-
-BotLogging.enable()

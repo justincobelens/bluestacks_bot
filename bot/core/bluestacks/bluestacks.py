@@ -1,8 +1,8 @@
 import json
 import time
 
-from bot.bluestacks.window import Window
-from bot.bluestacks.emulator import Emulator
+from bot.core.bluestacks.window import Window
+from bot.core.bluestacks.emulator import Emulator
 from bot.utils import paths
 
 

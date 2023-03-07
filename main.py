@@ -29,7 +29,7 @@ class Main:
                 i += 1
 
         finally:
-            logger.critical('Stopping adb server')
+            logger.warning('Stopping adb server')
             client.kill()
             logger.debug('Server closed...')
 

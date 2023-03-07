@@ -10,6 +10,8 @@ import win32api
 import win32con
 import win32gui
 
+# this file only exist to get some practise with win32 modules
+# this file will gett replaced by window_test.py
 
 from dataclasses import dataclass, field
 from subprocess import Popen, call, DEVNULL

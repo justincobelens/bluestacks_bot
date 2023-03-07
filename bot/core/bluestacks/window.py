@@ -2,7 +2,6 @@ import os
 import subprocess
 import ctypes
 
-import pygetwindow
 import pyautogui
 import time
 import numpy

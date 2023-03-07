@@ -1,5 +1,5 @@
 .idea
 *.db
-bot/paths.py
+bot/utils/paths.py
 *.pyc
 .gitattributes

@@ -1,11 +1,12 @@
 import collections
-from dataclasses import replace
+import time
 
-from bot import paths
-from bot import Bot
+from bot.bsbot import Bot
 from bot.adb.client import Client
-from bot.window.bluestacks import Bluestacks
-from bot.window.window import Window
+from bot.bluestacks.bluestacks import Bluestacks
+from bot.utils.logger import BotLogging
+
+logger = BotLogging.get_logger("bot." + __name__)
 
 
 class Manager:
@@ -13,14 +14,10 @@ class Manager:
     def __init__(self):
         # initiate objects
         self.bluestacks = Bluestacks()
-        self.window = Window()
         self.AdbClient = Client()
 
-        # get instance metadata from bluestacks
-        self.instances_MimMetaData = self.bluestacks.get_instances_data()
-
         # creating all bots and put in queue
-        self.bots_list = list(map(self.__create_bot, self.instances_MimMetaData))
+        self.bots_list = list(map(self.__create_bot, self.bluestacks.instances_MimMetaData))
         self.queue = collections.deque(self.bots_list)
 
         #
@@ -38,13 +35,13 @@ class Manager:
 
         return self.active_bot[0]
 
-    def run(self):
-        self.__start_bluestacks()
-        self.__start_phone()
+    def run(self, bot):
+        self.__start_emulator(bot)
+        self.__start_device(bot)
 
-    def stop(self):
-        self.__stop_phone()
-        self.__stop_bluestacks()
+    def stop(self, bot):
+        self.__stop_device(bot)
+        self.__stop_emulator(bot)
 
         #############################################
         #           Private Methods                 #
@@ -59,48 +56,61 @@ class Manager:
                   instance_name)
         return bot
 
-    def __start_bluestacks(self):
-        bot = self.active_bot[0]
-        self.window = Window()
+    def __start_emulator(self, bot):
 
-        # open window
-        instance_path = f"{paths.instance_path(bot.instance_name)}"
-        self.window.open(instance_path)
+        # start emulator window
+        self.bluestacks.start_emulator(bot.instance_name, bot.instance_title)
 
-        # wait for process to start
-        self.window.wait_for_process(state='start')
+        # create emulator obj
+        emulator = self.bluestacks.emulator(bot.instance_name, bot.instance_title)
 
-        # wait till window is open
-        self.window.wait_for_window(bot.instance_title)
+        # update bot adb_port
+        bot.adb_port = emulator.adb_port
 
         # arrange window
-        self.window.arrange(bot.instance_title, [0, 0, 593, 1020])
+        emulator.arrange(self, [0, 0, 593, 1020])
 
-    def __start_phone(self):
-        bot = self.active_bot[0]
+    def __start_device(self, bot):
+        #  bot = self.active_bot[0]
 
-        adb_port = self.bluestacks.get_adb_port(bot.instance_name)
-        serial = f"localhost:{adb_port}"
-        bot.serial = serial
+        serial = f"localhost:{bot.adb_port}"
+        bot.serial = serial  # update bot serial
 
-        # connect device
-        self.AdbClient.remote_connect(host="localhost", port=int(adb_port))
+        # connect to device
+        self.AdbClient.remote_connect(host="localhost", port=int(bot.adb_port))
+
+        # create phone
         self.phone = self.AdbClient.device(serial)
         self.phone.wait_boot_complete()
 
-        # # wait for home screen to load
+        # wait for home screen to load
+        for _ in range(0, 60):
+            if self.phone.get_top_activity() == 'com.bluestacks.launcher/.activity.HomeActivity':
+                return True
+            else:
+                time.sleep(1)
+        else:
+            print("Failed to load homescreen")
+            raise TimeoutError
+
+        #
         # self.phone.wait_for_homescreen()
 
-    def __stop_bluestacks(self):
-        bot = self.active_bot[0]
-
+    def __stop_emulator(self, bot):
         # close bluestacks window
-        self.window.close(bot.instance_title)
+        self.bluestacks.close(bot.instance_title)
 
         # wait for process to stop
-        self.window.wait_for_process(state='stop')
+        for _ in range(0, 60):
+            if self.bluestacks.is_process(bot.instance_title):
+                time.sleep(1)
+                continue
+            else:
+                break
+        else:
+            print("Failed to stop emulator")
+            raise TimeoutError
 
-    def __stop_phone(self):
+    def __stop_device(self, bot):
         # disconnect device from adb server
         self.AdbClient.remote_disconnect()
-

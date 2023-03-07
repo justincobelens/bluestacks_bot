@@ -4,7 +4,7 @@ import time
 from bot.adb.command import Command
 
 
-class Transport(Command):
+class Shell(Command):
 
     def transport(self, connection):
         cmd = "host:transport:{}".format(self.serial)
@@ -105,3 +105,15 @@ class Transport(Command):
                 raise TimeoutError()
             elif timedelta > 0:
                 time.sleep(timedelta)
+
+    def get_public_ip(self):
+        result = self.shell("wget -q -O - ipinfo.io/ip 2>/dev/null")
+        result_pattern = "^package:(.*?)\r?$"
+
+        ips = []
+        for line in result.split('\n'):
+            m = re.match(result_pattern, line)
+            if m:
+                ips.append(m.group(1))
+
+        return ips

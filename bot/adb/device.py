@@ -1,7 +1,7 @@
-from bot.adb.command.transport import Transport
+from bot.adb.command.shell import Shell
+from bot.adb.plugins.utils import Utils
 
-
-class Device(Transport):
+class Device(Shell, Utils):
 
     def __init__(self, client, serial):
         self.client = client

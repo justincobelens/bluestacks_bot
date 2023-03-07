@@ -1,6 +1,6 @@
 # Learning Project
  
-This is a personal project created with the purpose of learning more about object-oriented programming, sockets, software project organization, and having fun. The code is not intended to be flawless or follow textbook architecture. It is a learning experience and a work in progress.
+This is a personal project created with the purpose of learning more about object-oriented programming, sockets, WinApi, software project organization, and just having some fun. The code is not intended to be flawless or follow textbook architecture. It is a learning experience and a work in progress.
 
 How to Use
 ============
